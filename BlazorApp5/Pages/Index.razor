@@ -1,0 +1,65 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<label class="me-3">Skriv lista, separerad av mellanslag</label>
+<input type="text" @bind="textInput"/>
+<button class="btn btn-danger" @onclick="CreateList">Skapa lista</button>
+
+@for (int i = 0; i < shoppingList.Length -1; i++)
+{   
+        if (shoppingList[i] == shoppingList[i+1])
+        {
+            continue;
+        }   
+    <p>@shoppingList[i]</p>
+
+}
+<p>@textInput</p>
+
+@* @for (int i = 0; i < .Length - 1; i++)
+{
+    if (shoppingList[i] == shoppingList[i + 1])
+    {
+        continue;
+    }
+    <p>@shoppingList[i]</p>
+
+} *@
+
+@code{
+    string[] shoppingList = { "äta", "äta", "dricka", "saft", "macka", "saft", "lunch" };
+    string textInput = "";
+
+    void CreateList()
+    {
+        int words = CalculateLength(textInput);
+        string[] createdShoppingList = new string[words];
+        int arrayPosition = 0;
+        int textPosition = 0;
+        for (int i = 0; i < textInput.Length; i++)
+        {
+            if (textInput[i] == ' ')
+            {
+                createdShoppingList[arrayPosition] = textInput.Substring(textPosition, i);
+                textPosition = i + 1;
+                arrayPosition++;
+            }
+        }
+    }
+
+    int CalculateLength(string text)
+    {
+        int length = 0;
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (textInput[i] == ' ')
+            {
+                length++;
+            }
+        }
+        return length;
+    }
+}
